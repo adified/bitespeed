@@ -7,7 +7,7 @@ import (
 )
 
 type Config struct {
-	DB_Url string `mapstructure:"db_url"`
+	DB_Url string `mapstructure:"DB_URL"`
 }
 
 func Loadconfig() (Config, error) {
