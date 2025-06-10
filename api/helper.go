@@ -2,7 +2,6 @@ package api
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 
@@ -12,7 +11,7 @@ import (
 
 type Userreq struct {
 	Email       string `josn:"email" binding:"omitempty,email"`
-	PhoneNumber string `json:"phoneNumber" binding:"omitempty,alphanum"`
+	PhoneNumber string `json:"phoneNumber" binding:"omitempty,numeric"`
 }
 
 func CheckifExists(server *Server) gin.HandlerFunc {
@@ -37,8 +36,23 @@ func CheckifExists(server *Server) gin.HandlerFunc {
 			})
 			return
 		}
+
+		createUserReq := db.CreatePrimaryUserParams{
+			Email:       req.Email,
+			PhoneNumber: req.PhoneNumber,
+		}
 		if len(Users) == 0 {
-			fmt.Println("User not found, so create a new entry")
+			// fmt.Println("User not found, so create a new entry")
+			user, err := server.Querier.CreatePrimaryUser(context.Background(), createUserReq)
+			if err != nil {
+				c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
+					"error": "User can't be created",
+				})
+				return
+			}
+			c.JSON(http.StatusCreated, gin.H{
+				"user": user,
+			})
 		}
 
 		c.Next()
