@@ -1,6 +1,9 @@
 include app.env
 export $(shell sed 's/=.*//' app.env)
 
+new_db:
+	docker run --name postgres -p 5432:5432 -e POSTGRES_DB=bitespeed -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:17.5-alpine3.22
+
 migrateup:
 	migrate -path db/migration -database "$(DB_URL)" -verbose up
 

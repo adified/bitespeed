@@ -1,4 +1,17 @@
+-- -------------------------------------------------------------
+-- TablePlus 6.4.8(608)
+--
+-- https://tableplus.com/
+--
+-- Database: bitespeed
+-- Generation Time: 2025-06-10 10:59:48.3950
+-- -------------------------------------------------------------
+
+
+DROP TABLE IF EXISTS "public"."users";
+-- Sequence and defined type
 CREATE SEQUENCE IF NOT EXISTS users_id_seq;
+DROP TYPE IF EXISTS "public"."link_precedence";
 CREATE TYPE "public"."link_precedence" AS ENUM ('primary', 'secondary');
 
 -- Table Definition

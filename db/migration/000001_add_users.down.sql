@@ -1,2 +1,2 @@
-DROP TABLE IF EXISTS "users";
-DROP TYPE IF EXISTS link_precedence;
+DROP TABLE IF EXISTS "public"."users";
+DROP TYPE IF EXISTS "public"."link_precedence";
