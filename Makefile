@@ -21,3 +21,6 @@ new_migration:
 
 sqlc:
 	sqlc generate
+
+server:
+	go run main.go
