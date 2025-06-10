@@ -8,21 +8,22 @@ import (
 
 // Server serves HTTP requests for our banking service.
 type Server struct {
-	Querier db.Queries
+	pool    *pgxpool.Pool
+	Querier *db.Queries
 	router  *gin.Engine
 }
 
 func NewServer(dbpool *pgxpool.Pool) *Server {
-	Querier := db.New(dbpool)
 	server := &Server{
-		Querier: *Querier,
+		pool:    dbpool,         // Store the pool
+		Querier: db.New(dbpool), // Create a querier instance
 	}
 	return server
 }
 
 func (server *Server) SetupRouter() {
 	router := gin.Default()
-	router.POST("/identify", CheckifExists(server))
+	router.POST("/identify", server.CheckifExists())
 
 	server.router = router
 }
